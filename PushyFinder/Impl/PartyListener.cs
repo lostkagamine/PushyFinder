@@ -20,13 +20,17 @@ public static class PartyListener
 
     private static void OnJoin(PartyMember m)
     {
+        if (!CharacterUtil.IsClientAfk()) return;
+
         var mname = m.Name.ToString();
-        PluginLog.Information($"Member join: {mname}");
+        Service.ChatGui.Print($"AFK member join: {mname}");
     }
     
     private static void OnLeave(PartyMember m)
     {
+        if (!CharacterUtil.IsClientAfk()) return;
+        
         var mname = m.Name.ToString();
-        PluginLog.Information($"Member leave: {mname}");
+        Service.ChatGui.Print($"AFK member leave: {mname}");
     }
 }
