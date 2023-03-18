@@ -3,19 +3,21 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using System.IO;
 using Dalamud.Interface.Windowing;
-using SamplePlugin.Windows;
+using PushyFinder.Impl;
+using PushyFinder.Util;
+using PushyFinder.Windows;
 
-namespace SamplePlugin
+namespace PushyFinder
 {
     public sealed class Plugin : IDalamudPlugin
     {
-        public string Name => "Sample Plugin";
-        private const string CommandName = "/pmycommand";
+        public string Name => "PushyFinder";
+        private const string CommandName = "/pushyfinder";
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private CommandManager CommandManager { get; init; }
         public Configuration Configuration { get; init; }
-        public WindowSystem WindowSystem = new("SamplePlugin");
+        public WindowSystem WindowSystem = new("PushyFinder");
 
         private ConfigWindow ConfigWindow { get; init; }
         private MainWindow MainWindow { get; init; }
@@ -24,6 +26,8 @@ namespace SamplePlugin
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
             [RequiredVersion("1.0")] CommandManager commandManager)
         {
+            pluginInterface.Create<Service>();
+            
             this.PluginInterface = pluginInterface;
             this.CommandManager = commandManager;
 
@@ -47,6 +51,9 @@ namespace SamplePlugin
 
             this.PluginInterface.UiBuilder.Draw += DrawUI;
             this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+
+            PartyListSystem.Start();
+            PartyListener.On();
         }
 
         public void Dispose()
@@ -55,7 +62,10 @@ namespace SamplePlugin
             
             ConfigWindow.Dispose();
             MainWindow.Dispose();
-            
+
+            PartyListSystem.Stop();
+            PartyListener.Off();
+
             this.CommandManager.RemoveHandler(CommandName);
         }
 

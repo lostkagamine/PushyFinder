@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Authors></Authors>
-    <Company></Company>
+    <Authors>Luna@Nightshade (lostkagamine)</Authors>
+    <Company>Luna@Nightshade (lostkagamine)</Company>
     <Version>0.0.0.1</Version>
-    <Description>A sample plugin.</Description>
-    <Copyright></Copyright>
-    <PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>
+    <Description>Check on your party while away from the computer.</Description>
+    <Copyright>(C) 2023 Luna@Nightshade (lostkagamine)</Copyright>
+    <PackageProjectUrl>https://github.com/ry00001/PushyFinder</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>

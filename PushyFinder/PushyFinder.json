@@ -1,0 +1,13 @@
+{
+  "Author": "Luna@Nightshade (lostkagamine)",
+  "Name": "PushyFinder",
+  "Punchline": "Check on your party away from the computer.",
+  "Description": "A plugin that uses a push notification API to alert you when your party changes while AFK.",
+  "InternalName": "pushyFinder",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "sample",
+    "plugin",
+    "goats"
+  ]
+}
