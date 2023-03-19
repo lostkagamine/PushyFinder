@@ -2,6 +2,8 @@
 using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using PushyFinder.Delivery;
+using PushyFinder.Util;
 
 namespace PushyFinder.Windows;
 
@@ -18,6 +20,8 @@ public class ConfigWindow : Window, IDisposable
     }
 
     public void Dispose() { }
+
+    private TimedBool notifSentMessageTimer = new(3.0f);
 
     public override void Draw()
     {
@@ -48,6 +52,18 @@ public class ConfigWindow : Window, IDisposable
             {
                 Configuration.EnableForDutyPops = cfg;
             }
+        }
+
+        if (ImGui.Button("Send test notification"))
+        {
+            notifSentMessageTimer.Start();
+            PushoverDelivery.Deliver("Test notification", 
+                                     "If you received this, PushyFinder is configured correctly.");
+        }
+
+        if (notifSentMessageTimer.Value)
+        {
+            ImGui.Text("Notification sent!");
         }
         
         if (ImGui.Button("Save and close"))
