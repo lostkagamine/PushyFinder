@@ -16,11 +16,15 @@ namespace PushyFinder
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private CommandManager CommandManager { get; init; }
+        
+        // This *is* used.
+#pragma warning disable CS8618
         public static Configuration Configuration { get; private set; }
+#pragma warning restore
+        
         public WindowSystem WindowSystem = new("PushyFinder");
 
         private ConfigWindow ConfigWindow { get; init; }
-        private MainWindow MainWindow { get; init; }
 
         public Plugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,

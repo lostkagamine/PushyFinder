@@ -23,8 +23,8 @@ public static class CrossWorldPartyListSystem
     public delegate void CrossWorldJoinDelegate(CrossWorldMember m);
     public delegate void CrossWorldLeaveDelegate(CrossWorldMember m);
 
-    public static event CrossWorldJoinDelegate OnJoin;
-    public static event CrossWorldLeaveDelegate OnLeave;
+    public static event CrossWorldJoinDelegate? OnJoin;
+    public static event CrossWorldLeaveDelegate? OnLeave;
 
     public static void Start()
     {
