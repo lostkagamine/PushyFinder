@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cf9d4668-d556-4b78-8b97-5e2879a29897" name="Changes" comment="first fucking try babyyyyyy">
+    <list default="true" id="cf9d4668-d556-4b78-8b97-5e2879a29897" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SamplePlugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SamplePlugin/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679171598448</updated>
-      <workItem from="1679171603671" duration="7241000" />
+      <workItem from="1679171603671" duration="8743000" />
     </task>
     <task id="LOCAL-00001" summary="~nightmare zone~">
       <created>1679177673706</created>
@@ -67,7 +67,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679178302617</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="shut up rider">
+      <created>1679179039277</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1679179039277</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -79,6 +86,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="~nightmare zone~" />
     <MESSAGE value="first fucking try babyyyyyy" />
-    <option name="LAST_COMMIT_MESSAGE" value="first fucking try babyyyyyy" />
+    <MESSAGE value="shut up rider" />
+    <option name="LAST_COMMIT_MESSAGE" value="shut up rider" />
   </component>
 </project>

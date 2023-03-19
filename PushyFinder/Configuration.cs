@@ -9,7 +9,10 @@ namespace PushyFinder
     {
         public int Version { get; set; } = 0;
 
-        public bool SomePropertyToBeSavedAndWithADefault { get; set; } = true;
+        public bool PluginEnabled { get; set; } = false;
+        public string PushoverAppKey { get; set; } = "";
+        public string PushoverUserKey { get; set; } = "";
+        public string PushoverDevice { get; set; } = "";
 
         // the below exist just to make saving less cumbersome
         [NonSerialized]

@@ -3,16 +3,26 @@ using System.Linq;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Logging;
+using Dalamud.Memory;
+using FFXIVClientStructs.FFXIV.Client.UI.Info;
 
 namespace PushyFinder.Util;
 
-public static class PartyListSystem
+public static class CrossWorldPartyListSystem
 {
-    public delegate void PartyMemberJoinDelegate(PartyMember m);
-    public delegate void PartyMemberLeaveDelegate(PartyMember m);
+    // Yes, there's already a type in Dalamud for this.
+    // TODO? add more if we end up needing it
+    public struct CrossWorldMember
+    {
+        public string Name;
+        public int PartyCount;
+    }
+    
+    public delegate void CrossWorldJoinDelegate(CrossWorldMember m);
+    public delegate void CrossWorldLeaveDelegate(CrossWorldMember m);
 
-    public static event PartyMemberJoinDelegate OnJoin;
-    public static event PartyMemberLeaveDelegate OnLeave;
+    public static event CrossWorldJoinDelegate OnJoin;
+    public static event CrossWorldLeaveDelegate OnLeave;
 
     public static void Start()
     {
@@ -26,35 +36,41 @@ public static class PartyListSystem
         Service.Framework.Update -= Update;
     }
 
-    private static List<PartyMember> members = new();
-    private static List<PartyMember> oldMembers = new();
+    private static List<CrossWorldMember> members = new();
+    private static List<CrossWorldMember> oldMembers = new();
 
-    static bool ListContainsMember(List<PartyMember> l, PartyMember m)
+    static bool ListContainsMember(List<CrossWorldMember> l, CrossWorldMember m)
     {
         // oh this is incredibly fucking stupid
         foreach (var a in l)
         {
-            if (a.Name.ToString() == m.Name.ToString())
+            if (a.Name == m.Name)
                 return true;
         }
 
         return false;
     }
 
-    static void Update(Framework framework)
+    static unsafe void Update(Framework framework)
     {
         if (!Service.ClientState.IsLoggedIn)
             return;
+
+        if (!InfoProxyCrossRealm.IsCrossRealmParty())
+            return;
         
-        // Performance nightmare? Bad idea? Who knows. ~L
-        // If we run out of RAM after running this plugin, you know how we went.
         members.Clear();
-        for (var i = 0; i < Service.PartyList.Length; i++)
+        var partyCount = InfoProxyCrossRealm.GetPartyMemberCount();
+        for (var i = 0u; i < partyCount; i++)
         {
-            var addr = Service.PartyList.GetPartyMemberAddress(i);
-            var mem = Service.PartyList.CreatePartyMemberReference(addr);
-            if (mem != null)
-                members.Add(mem);
+            var addr = InfoProxyCrossRealm.GetGroupMember(i);
+            var name = MemoryHelper.ReadStringNullTerminated((nint)addr->Name);
+            var mObj = new CrossWorldMember
+            {
+                Name = name,
+                PartyCount = partyCount
+            };
+            members.Add(mObj);
         }
         
         if (members.Count != oldMembers.Count)

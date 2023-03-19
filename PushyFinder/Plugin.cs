@@ -16,7 +16,7 @@ namespace PushyFinder
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private CommandManager CommandManager { get; init; }
-        public Configuration Configuration { get; init; }
+        public static Configuration Configuration { get; private set; }
         public WindowSystem WindowSystem = new("PushyFinder");
 
         private ConfigWindow ConfigWindow { get; init; }
@@ -31,28 +31,22 @@ namespace PushyFinder
             this.PluginInterface = pluginInterface;
             this.CommandManager = commandManager;
 
-            this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            this.Configuration.Initialize(this.PluginInterface);
-
-            // you might normally want to embed resources and load them from the manifest stream
-            var imagePath = Path.Combine(PluginInterface.AssemblyLocation.Directory?.FullName!, "goat.png");
-            var goatImage = this.PluginInterface.UiBuilder.LoadImage(imagePath);
-
+            Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+            Configuration.Initialize(this.PluginInterface);
+            
             ConfigWindow = new ConfigWindow(this);
-            MainWindow = new MainWindow(this, goatImage);
             
             WindowSystem.AddWindow(ConfigWindow);
-            WindowSystem.AddWindow(MainWindow);
 
             this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
-                HelpMessage = "A useful message to display in /xlhelp"
+                HelpMessage = "Opens the configuration window."
             });
 
             this.PluginInterface.UiBuilder.Draw += DrawUI;
             this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
 
-            PartyListSystem.Start();
+            CrossWorldPartyListSystem.Start();
             PartyListener.On();
         }
 
@@ -63,7 +57,7 @@ namespace PushyFinder
             ConfigWindow.Dispose();
             MainWindow.Dispose();
 
-            PartyListSystem.Stop();
+            CrossWorldPartyListSystem.Stop();
             PartyListener.Off();
 
             this.CommandManager.RemoveHandler(CommandName);
@@ -71,8 +65,7 @@ namespace PushyFinder
 
         private void OnCommand(string command, string args)
         {
-            // in response to the slash command, just display our main ui
-            MainWindow.IsOpen = true;
+            ConfigWindow.IsOpen = true;
         }
 
         private void DrawUI()
