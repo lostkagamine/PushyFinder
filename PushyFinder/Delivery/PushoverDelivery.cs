@@ -9,9 +9,11 @@ public static class PushoverDelivery
 {
     public static readonly string PUSHOVER_API = "https://api.pushover.net/1/messages.json";
     
-    public static void Deliver(string title, string text)
+    public static void Deliver(string title, string text = "")
     {
-        if (!Plugin.Configuration.PluginEnabled) return;
+        if (Plugin.Configuration.PushoverAppKey.Length == 0 ||
+            Plugin.Configuration.PushoverDevice.Length == 0 ||
+            Plugin.Configuration.PushoverUserKey.Length == 0) return;
         
         Task.Run(() => DeliverAsync(title, text));
     }

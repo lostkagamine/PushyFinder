@@ -22,13 +22,6 @@ public class ConfigWindow : Window, IDisposable
     public override void Draw()
     {
         {
-            var cfg = Configuration.PluginEnabled;
-            if (ImGui.Checkbox("Enable plugin?", ref cfg))
-            {
-                Configuration.PluginEnabled = cfg;
-            }
-        }
-        {
             var cfg = Configuration.PushoverAppKey;
             if (ImGui.InputText("Application key", ref cfg, 2048u))
             {
@@ -47,6 +40,13 @@ public class ConfigWindow : Window, IDisposable
             if (ImGui.InputText("Device name", ref cfg, 2048u))
             {
                 Configuration.PushoverDevice = cfg;
+            }
+        }
+        {
+            var cfg = Configuration.EnableForDutyPops;
+            if (ImGui.Checkbox("Send message for duty pop?", ref cfg))
+            {
+                Configuration.EnableForDutyPops = cfg;
             }
         }
         

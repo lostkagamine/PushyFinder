@@ -48,6 +48,7 @@ namespace PushyFinder
 
             CrossWorldPartyListSystem.Start();
             PartyListener.On();
+            DutyListener.On();
         }
 
         public void Dispose()
@@ -58,6 +59,7 @@ namespace PushyFinder
 
             CrossWorldPartyListSystem.Stop();
             PartyListener.Off();
+            DutyListener.Off();
 
             this.CommandManager.RemoveHandler(CommandName);
         }

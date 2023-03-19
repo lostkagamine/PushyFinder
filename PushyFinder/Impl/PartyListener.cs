@@ -11,12 +11,14 @@ public static class PartyListener
 {
     public static void On()
     {
+        PluginLog.Debug("PartyListener On");
         CrossWorldPartyListSystem.OnJoin += OnJoin;
         CrossWorldPartyListSystem.OnLeave += OnLeave;
     }
     
     public static void Off()
     {
+        PluginLog.Debug("PartyListener Off");
         CrossWorldPartyListSystem.OnJoin -= OnJoin;
         CrossWorldPartyListSystem.OnLeave -= OnLeave;
     }
