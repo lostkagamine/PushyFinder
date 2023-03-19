@@ -6,8 +6,8 @@
   "InternalName": "pushyFinder",
   "ApplicableVersion": "any",
   "Tags": [
-    "sample",
-    "plugin",
-    "goats"
+      "party-finder",
+      "afk",
+      "notifications"
   ]
 }
