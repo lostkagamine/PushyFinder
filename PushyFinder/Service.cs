@@ -1,3 +1,4 @@
+using Dalamud.Data;
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Party;
@@ -27,4 +28,7 @@ public class Service
     
     [PluginService]
     public static ChatGui ChatGui { get; private set; } = null!;
+    
+    [PluginService]
+    public static DataManager DataManager { get; private set; } = null!;
 }

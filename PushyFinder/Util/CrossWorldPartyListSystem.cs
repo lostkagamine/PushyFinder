@@ -16,6 +16,8 @@ public static class CrossWorldPartyListSystem
     {
         public string Name;
         public int PartyCount;
+        public uint Level;
+        public uint JobId;
     }
     
     public delegate void CrossWorldJoinDelegate(CrossWorldMember m);
@@ -68,7 +70,9 @@ public static class CrossWorldPartyListSystem
             var mObj = new CrossWorldMember
             {
                 Name = name,
-                PartyCount = partyCount
+                PartyCount = partyCount,
+                Level = addr->Level,
+                JobId = addr->ClassJobId,
             };
             members.Add(mObj);
         }

@@ -55,7 +55,6 @@ namespace PushyFinder
             this.WindowSystem.RemoveAllWindows();
             
             ConfigWindow.Dispose();
-            MainWindow.Dispose();
 
             CrossWorldPartyListSystem.Stop();
             PartyListener.Off();
