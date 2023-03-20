@@ -12,7 +12,7 @@ namespace PushyFinder.Delivery
         public abstract static void Deliver(string title, string text = "");
     }
 
-    public enum deliveries
+    public enum Deliveries
     {
         Pushover,
         Ntfy,
@@ -24,8 +24,8 @@ namespace PushyFinder.Delivery
         {
             return Plugin.Configuration.DeliveryService switch
             {
-                deliveries.Pushover => PushoverDelivery.Deliver,
-                deliveries.Ntfy => NtfyDelivery.Deliver,
+                Deliveries.Pushover => PushoverDelivery.Deliver,
+                Deliveries.Ntfy => NtfyDelivery.Deliver,
                 _ => throw new NotImplementedException($"Unsupported Delivery Destination {Plugin.Configuration.DeliveryService}"),
             };
         }

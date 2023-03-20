@@ -12,8 +12,8 @@ public abstract class NtfyDelivery : IDelivery
 
     public static void Deliver(string title, string text = "")
     {
-        if (Plugin.Configuration.ntfyTopic.Length == 0 ||
-            Plugin.Configuration.ntfyDomain.Length == 0) return;
+        if (Plugin.Configuration.NtfyTopic.Length == 0 ||
+            Plugin.Configuration.NtfyDomain.Length == 0) return;
         
         Task.Run(() => DeliverAsync(title, text));
     }
@@ -22,7 +22,7 @@ public abstract class NtfyDelivery : IDelivery
     {
         try
         {
-            var url = Plugin.Configuration.ntfyDomain + Plugin.Configuration.ntfyTopic;
+            var url = Plugin.Configuration.NtfyDomain + Plugin.Configuration.NtfyTopic;
 
             await url.WithHeader("Title", title).PostStringAsync(text);
         }

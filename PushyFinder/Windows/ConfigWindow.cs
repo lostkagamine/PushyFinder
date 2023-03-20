@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
@@ -28,12 +28,12 @@ public class ConfigWindow : Window, IDisposable
         var service = Configuration.DeliveryService;
         if (ImGui.BeginCombo("Service", service.ToString()))
         {
-            foreach (var item in Enum.GetValues<deliveries>())
+            foreach (var item in Enum.GetValues<Deliveries>())
             {
                 if (ImGui.Selectable(item.ToString(), Configuration.DeliveryService == item)) Configuration.DeliveryService = item;
             }
         }
-        if (service == Delivery.deliveries.Pushover)
+        if (service == Deliveries.Pushover)
         {
             {
                 var cfg = Configuration.PushoverAppKey;
@@ -57,20 +57,20 @@ public class ConfigWindow : Window, IDisposable
                 }
             }
         }
-        else if (service == deliveries.Ntfy)
+        else if (service == Deliveries.Ntfy)
         {
             {
-                var cfg = Configuration.ntfyTopic;
+                var cfg = Configuration.NtfyTopic;
                 if (ImGui.InputText("Topic", ref cfg, 2048u))
                 {
-                    Configuration.ntfyTopic = cfg;
+                    Configuration.NtfyTopic = cfg;
                 }
             }
             {
-                var cfg = Configuration.ntfyDomain;
+                var cfg = Configuration.NtfyDomain;
                 if (ImGui.InputText("Domain", ref cfg, 2048u))
                 {
-                    Configuration.ntfyDomain = cfg;
+                    Configuration.NtfyDomain = cfg;
                 }
             }
         }

@@ -10,14 +10,14 @@ namespace PushyFinder
     {
         public int Version { get; set; } = 1;
 
-        public deliveries DeliveryService { get; set; } = deliveries.Pushover;
+        public Deliveries DeliveryService { get; set; } = Deliveries.Pushover;
 
         public string PushoverAppKey { get; set; } = "";
         public string PushoverUserKey { get; set; } = "";
         public string PushoverDevice { get; set; } = "";
 
-        public string ntfyTopic { get; set; } = "";
-        public string ntfyDomain { get; set; } = "https://ntfy.sh/";
+        public string NtfyTopic { get; set; } = "";
+        public string NtfyDomain { get; set; } = "https://ntfy.sh/";
 
         public bool EnableForDutyPops { get; set; } = true;
 
