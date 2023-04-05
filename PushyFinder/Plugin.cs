@@ -1,7 +1,6 @@
 ﻿using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using System.IO;
 using Dalamud.Interface.Windowing;
 using PushyFinder.Impl;
 using PushyFinder.Util;
