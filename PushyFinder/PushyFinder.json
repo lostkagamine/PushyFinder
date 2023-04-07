@@ -3,7 +3,7 @@
   "Name": "PushyFinder",
   "Punchline": "Mobile push notifications for the Party Finder.",
   "Description": "A plugin that uses Pushover (https://pushover.net) to send mobile push notifications when party members join or leave, or when a duty finder queue is initiated.",
-  "InternalName": "pushyFinder",
+  "InternalName": "PushyFinder",
   "ApplicableVersion": "any",
   "Tags": [
       "party-finder",
