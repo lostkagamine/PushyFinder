@@ -13,6 +13,7 @@ namespace PushyFinder
         public string PushoverUserKey { get; set; } = "";
         public string PushoverDevice { get; set; } = "";
         public bool EnableForDutyPops { get; set; } = true;
+        public bool IgnoreAfkStatus { get; set; } = false;
 
         // the below exist just to make saving less cumbersome
         [NonSerialized]
