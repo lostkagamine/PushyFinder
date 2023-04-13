@@ -81,6 +81,11 @@ public class ConfigWindow : Window, IDisposable
                 ImGui.EndTooltip();
             }
         }
+        else
+        {
+            var green = new Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+            ImGui.TextColored(green, "You are AFK. The plugin is active and notifications will be served.");
+        }
 
         if (ImGui.Button("Save and close"))
         {
