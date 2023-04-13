@@ -8,7 +8,7 @@ public static class CharacterUtil
     {
         if (!Service.ClientState.IsLoggedIn ||
             Service.ClientState.LocalPlayer == null)
-            return true;
+            return false;
 
         return Service.ClientState.LocalPlayer.OnlineStatus.Id == 17;
     }

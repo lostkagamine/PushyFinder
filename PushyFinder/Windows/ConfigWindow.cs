@@ -63,9 +63,25 @@ public class ConfigWindow : Window, IDisposable
 
         if (notifSentMessageTimer.Value)
         {
+            ImGui.SameLine();
             ImGui.Text("Notification sent!");
         }
-        
+
+        if (!CharacterUtil.IsClientAfk())
+        {
+            var red = new Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+            ImGui.TextColored(red, "This plugin will only function while your client is AFK (/afk, red icon)!");
+
+            if (ImGui.IsItemHovered())
+            {
+                ImGui.BeginTooltip();
+                ImGui.Text("The reasoning for this is that if you are not AFK, you are assumed to");
+                ImGui.Text("be at your computer, and ready to respond to a join or a duty pop.");
+                ImGui.Text("Notifications would be bothersome, so they are disabled.");
+                ImGui.EndTooltip();
+            }
+        }
+
         if (ImGui.Button("Save and close"))
         {
             Configuration.Save();
