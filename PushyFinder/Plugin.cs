@@ -2,6 +2,7 @@
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Interface.Windowing;
+using Dalamud.Logging;
 using PushyFinder.Impl;
 using PushyFinder.Util;
 using PushyFinder.Windows;
@@ -69,6 +70,12 @@ namespace PushyFinder
 
         private void OnCommand(string command, string args)
         {
+            if (args == "debugOnlineStatus")
+            {
+                Service.ChatGui.Print($"OnlineStatus ID = {Service.ClientState.LocalPlayer.OnlineStatus.Id}");
+                return;
+            }
+            
             ConfigWindow.IsOpen = true;
         }
 
