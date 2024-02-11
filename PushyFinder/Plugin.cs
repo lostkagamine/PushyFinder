@@ -3,6 +3,7 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
+using Dalamud.Plugin.Services;
 using PushyFinder.Impl;
 using PushyFinder.Util;
 using PushyFinder.Windows;
@@ -15,7 +16,7 @@ namespace PushyFinder
         private const string CommandName = "/pushyfinder";
 
         private DalamudPluginInterface PluginInterface { get; init; }
-        private CommandManager CommandManager { get; init; }
+        private ICommandManager CommandManager { get; init; }
         
         // This *is* used.
 #pragma warning disable CS8618
@@ -28,7 +29,7 @@ namespace PushyFinder
 
         public Plugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] CommandManager commandManager)
+            [RequiredVersion("1.0")] ICommandManager commandManager)
         {
             pluginInterface.Create<Service>();
             
@@ -72,7 +73,7 @@ namespace PushyFinder
         {
             if (args == "debugOnlineStatus")
             {
-                Service.ChatGui.Print($"OnlineStatus ID = {Service.ClientState.LocalPlayer.OnlineStatus.Id}");
+                Service.ChatGui.Print($"OnlineStatus ID = {Service.ClientState.LocalPlayer!.OnlineStatus.Id}");
                 return;
             }
             

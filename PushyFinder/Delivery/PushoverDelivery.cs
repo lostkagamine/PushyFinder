@@ -35,8 +35,8 @@ public static class PushoverDelivery
         }
         catch (FlurlHttpException e)
         {
-            PluginLog.Error($"Failed to make Pushover req: '{e.Message}'");
-            PluginLog.Error($"{e.StackTrace}");
+            Service.PluginLog.Error($"Failed to make Pushover request: '{e.Message}'");
+            Service.PluginLog.Error($"{e.StackTrace}");
         }
     }
 }

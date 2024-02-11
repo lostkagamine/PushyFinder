@@ -4,6 +4,7 @@ using Dalamud.Game;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Logging;
 using Dalamud.Memory;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
 
 namespace PushyFinder.Util;
@@ -28,13 +29,11 @@ public static class CrossWorldPartyListSystem
 
     public static void Start()
     {
-        PluginLog.Information("Start");
         Service.Framework.Update += Update;
     }
 
     public static void Stop()
     {
-        PluginLog.Information("Stop");
         Service.Framework.Update -= Update;
     }
 
@@ -53,7 +52,7 @@ public static class CrossWorldPartyListSystem
         return false;
     }
 
-    static unsafe void Update(Framework framework)
+    static unsafe void Update(IFramework framework)
     {
         if (!Service.ClientState.IsLoggedIn)
             return;
