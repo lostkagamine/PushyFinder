@@ -25,29 +25,63 @@ public static class PartyListener
 
     private static void OnJoin(CrossWorldPartyListSystem.CrossWorldMember m)
     {
-        if (!CharacterUtil.IsClientAfk()) return;
-
-        var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
-
-        if (m.PartyCount == 8)
+        if (Plugin.Configuration.EnablePushover)
         {
-            PushoverDelivery.Deliver("Party full",
-                                     $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.\nParty recruitment ended. All spots have been filled.");
+            if (!CharacterUtil.IsClientAfk()) return;
+
+            var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
+
+            if (m.PartyCount == 8)
+            {
+                PushoverDelivery.Deliver("Party full",
+                                         $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.\nParty recruitment ended. All spots have been filled.");
+            }
+            else
+            {
+                PushoverDelivery.Deliver($"{m.PartyCount}/8: Party join",
+                                         $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.");
+            }
         }
-        else
+
+        if (Plugin.Configuration.EnableDiscord)
         {
-            PushoverDelivery.Deliver($"{m.PartyCount}/8: Party join",
-                                     $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.");
+            if (!CharacterUtil.IsClientAfk()) return;
+
+            var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
+
+            if (m.PartyCount == 8)
+            {
+                DncDelivery.Deliver("Party full",
+                                         $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.\nParty recruitment ended. All spots have been filled.");
+            }
+            else
+            {
+                DncDelivery.Deliver($"{m.PartyCount}/8: Party join",
+                                         $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.");
+            }
         }
     }
     
     private static void OnLeave(CrossWorldPartyListSystem.CrossWorldMember m)
     {
-        if (!CharacterUtil.IsClientAfk()) return;
+        if (Plugin.Configuration.EnablePushover)
+        {
+            if (!CharacterUtil.IsClientAfk()) return;
         
-        var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
+            var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
 
-        PushoverDelivery.Deliver($"{m.PartyCount-1}/8: Party leave",
-                                 $"{m.Name} (Lv{m.Level} {jobAbbr}) has left the party.");
+            PushoverDelivery.Deliver($"{m.PartyCount-1}/8: Party leave",
+                                     $"{m.Name} (Lv{m.Level} {jobAbbr}) has left the party.");
+        }
+
+        if (Plugin.Configuration.EnableDiscord)
+        {
+            if (!CharacterUtil.IsClientAfk()) return;
+        
+            var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
+
+            DncDelivery.Deliver($"{m.PartyCount-1}/8: Party leave",
+                                     $"{m.Name} (Lv{m.Level} {jobAbbr}) has left the party.");
+        }
     }
 }

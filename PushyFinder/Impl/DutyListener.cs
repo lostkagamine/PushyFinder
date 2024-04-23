@@ -21,13 +21,28 @@ public class DutyListener
 
     private static void OnDutyPop(ContentFinderCondition e)
     {
-        if (!Plugin.Configuration.EnableForDutyPops)
-            return;
+        if (Plugin.Configuration.EnablePushover)
+        {
+            if (!Plugin.Configuration.EnableForDutyPops)
+                return;
 
-        if (!CharacterUtil.IsClientAfk())
-            return;
+            if (!CharacterUtil.IsClientAfk())
+                return;
         
-        var dutyName = e.RowId == 0 ? "Duty Roulette" : e.Name.ToDalamudString().TextValue;
-        PushoverDelivery.Deliver($"Duty pop", $"Duty registered: '{dutyName}'.");
+            var dutyName = e.RowId == 0 ? "Duty Roulette" : e.Name.ToDalamudString().TextValue;
+            PushoverDelivery.Deliver($"Duty pop", $"Duty registered: '{dutyName}'.");
+        }
+
+        if (Plugin.Configuration.EnableDiscord)
+        {
+            if (!Plugin.Configuration.EnableForDutyPopsDc)
+                return;
+
+            if (!CharacterUtil.IsClientAfk())
+                return;
+        
+            var dutyName = e.RowId == 0 ? "Duty Roulette" : e.Name.ToDalamudString().TextValue;
+            DncDelivery.Deliver($"Duty pop", $"Duty registered: '{dutyName}'.");
+        }
     }
 }
