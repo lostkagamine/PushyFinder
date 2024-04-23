@@ -7,6 +7,8 @@ Install the plugin, configure it using `/pf`, go AFK (look for the red icon) and
 You will need a valid [Pushover](https://pushover.net) license, application key and user key to use this.
 Support for other push notification services is coming soon, but for now, evaluate for yourself whether a one-time $5 purchase is worth it. We think it is.
 
+Or if you want to use Discord, you can use the Discord Webhook feature for free and also let people on your discord server know (if you want) how your PF Status is.
+
 ### Discord Setup
 1. Go to your Text Channel where you want to receive notifications.
 2. Go to settings and click on `Integrations`.
