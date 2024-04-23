@@ -14,6 +14,14 @@ namespace PushyFinder
         public string PushoverDevice { get; set; } = "";
         public bool EnableForDutyPops { get; set; } = true;
         public bool IgnoreAfkStatus { get; set; } = false;
+        
+        public bool EnableForDutyPopsDc { get; set; } = true;
+        public bool IgnoreAfkStatusDc { get; set; } = false;
+        
+        public bool EnablePushover { get; set; } = true;
+        public bool EnableDiscord { get; set; } = true;
+        
+        public string DcHook { get; set; } = "";
 
         // the below exist just to make saving less cumbersome
         [NonSerialized]

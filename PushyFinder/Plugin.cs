@@ -13,7 +13,7 @@ namespace PushyFinder
     public sealed class Plugin : IDalamudPlugin
     {
         public string Name => "PushyFinder";
-        private const string CommandName = "/pushyfinder";
+        private const string CommandName = "/pf";
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
@@ -45,7 +45,7 @@ namespace PushyFinder
 
             this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
-                HelpMessage = "Opens the configuration window."
+                HelpMessage = "Opens settings\n'pt' toggles Pushover whether it's enabled.\n'pon' enables the Pushover plugin\n'poff' disables the Pushover plugin.\n replace 'p' with 'd' for the Discord side"
             });
 
             this.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -71,13 +71,37 @@ namespace PushyFinder
 
         private void OnCommand(string command, string args)
         {
-            if (args == "debugOnlineStatus")
-            {
-                Service.ChatGui.Print($"OnlineStatus ID = {Service.ClientState.LocalPlayer!.OnlineStatus.Id}");
-                return;
-            }
             
-            ConfigWindow.IsOpen = true;
+            switch (args.Trim())
+            {
+                case "pt" or "toggle":
+                    Configuration.EnablePushover = !Configuration.EnablePushover;
+                    Service.ChatGui.Print($"Pushover plugin {(Configuration.EnablePushover ? "enabled" : "disabled")}.");
+                    break;
+                case "pon":
+                    Configuration.EnablePushover = true;
+                    Service.ChatGui.Print($"Pushover plugin enabled.");
+                    break;
+                case "poff":
+                    Configuration.EnablePushover = false;
+                    Service.ChatGui.Print($"Pushover plugin disabled.");
+                    break;
+                case "dt" or "toggle":
+                    Configuration.EnableDiscord = !Configuration.EnableDiscord;
+                    Service.ChatGui.Print($"Discord Webhook plugin {(Configuration.EnableDiscord ? "enabled" : "disabled")}.");
+                    break;
+                case "don":
+                    Configuration.EnableDiscord = true;
+                    Service.ChatGui.Print($"Discord Webhook plugin enabled.");
+                    break;
+                case "doff":
+                    Configuration.EnableDiscord = false;
+                    Service.ChatGui.Print($"Discord Webhook plugin disabled.");
+                    break;
+                case "":
+                    ConfigWindow.IsOpen = true;
+                    break;
+            }
         }
 
         private void DrawUI()
