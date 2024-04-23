@@ -20,7 +20,7 @@ public static class DncDelivery
         // Constructing the payload for Discord webhook
         var payload = new
         {
-            username = "DcN",
+            username = "PushyFinder",
             avatar_url= "https://i.imgur.com/wAhXLxp.png",
             embeds = new[]
             {

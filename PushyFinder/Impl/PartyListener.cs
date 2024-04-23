@@ -45,7 +45,7 @@ public static class PartyListener
 
         if (Plugin.Configuration.EnableDiscord)
         {
-            if (!CharacterUtil.IsClientAfk()) return;
+            if (!CharacterUtil.IsClientAfkDc()) return;
 
             var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
 
@@ -76,7 +76,7 @@ public static class PartyListener
 
         if (Plugin.Configuration.EnableDiscord)
         {
-            if (!CharacterUtil.IsClientAfk()) return;
+            if (!CharacterUtil.IsClientAfkDc()) return;
         
             var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
 

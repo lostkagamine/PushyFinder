@@ -1,8 +1,8 @@
 {
-  "Author": "Nightshade System",
+  "Author": "Nightshade System and Raiden",
   "Name": "PushyFinder",
-  "Punchline": "Mobile push notifications for the Party Finder.",
-  "Description": "A plugin that uses Pushover (https://pushover.net) to send mobile push notifications when party members join or leave, or when a duty finder queue is initiated.",
+  "Punchline": "Mobile or Discord Webhook push notifications for the Party Finder.",
+  "Description": "A plugin that uses Pushover or a Discord Webhook (https://pushover.net) to send push notifications when party members join or leave, or when a duty finder queue is initiated.",
   "InternalName": "PushyFinder",
   "ApplicableVersion": "any",
   "Tags": [

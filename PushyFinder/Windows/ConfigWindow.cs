@@ -147,7 +147,7 @@ public class ConfigWindow : Window, IDisposable
                 {
                     notifSentMessageTimer.Start();
                     DncDelivery.Deliver("Test notification",
-                                        "If you received this, DcN is configured correctly.");
+                                        "If you received this, PushyFinder is configured correctly.");
                 }
 
                 if (notifSentMessageTimer.Value)
@@ -166,7 +166,7 @@ public class ConfigWindow : Window, IDisposable
 
                 if (!Configuration.IgnoreAfkStatusDc)
                 {
-                    if (!CharacterUtil.IsClientAfk())
+                    if (!CharacterUtil.IsClientAfkDc())
                     {
                         var red = new Vector4(1.0f, 0.0f, 0.0f, 1.0f);
                         ImGui.TextColored(

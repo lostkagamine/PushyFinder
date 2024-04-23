@@ -38,7 +38,7 @@ public class DutyListener
             if (!Plugin.Configuration.EnableForDutyPopsDc)
                 return;
 
-            if (!CharacterUtil.IsClientAfk())
+            if (!CharacterUtil.IsClientAfkDc())
                 return;
         
             var dutyName = e.RowId == 0 ? "Duty Roulette" : e.Name.ToDalamudString().TextValue;
