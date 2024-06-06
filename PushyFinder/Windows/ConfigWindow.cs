@@ -11,7 +11,7 @@ namespace PushyFinder.Windows;
 public class ConfigWindow : Window, IDisposable
 {
     private Configuration Configuration;
-    
+
     public ConfigWindow(Plugin plugin) : base(
         "PushyFinder Configuration",
         ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoScrollbar |
@@ -88,24 +88,35 @@ public class ConfigWindow : Window, IDisposable
 
     public override void Draw()
     {
-        if (ImRaii.TabBar("Services"))
+        using (var tabBar = ImRaii.TabBar("Services"))
         {
-            if (ImRaii.TabItem("Pushover"))
+            if (tabBar)
             {
-                DrawPushoverConfig();
-            }
+                using (var pushoverTab = ImRaii.TabItem("Pushover"))
+                {
+                    if (pushoverTab)
+                    {
+                        DrawPushoverConfig();
+                    }
+                }
 
-            if (ImRaii.TabItem("Discord"))
-            {
-                DrawDiscordConfig();
+                using (var discordTab = ImRaii.TabItem("Discord"))
+                {
+                    if (discordTab)
+                    {
+                        DrawDiscordConfig();
+                    }
+                }
             }
         }
+
+        ImGui.NewLine();
 
         if (ImGui.Button("Send test notification"))
         {
             notifSentMessageTimer.Start();
-            PushDelivery.Deliver("Test notification", 
-                                     "If you received this, PushyFinder is configured correctly.");
+            PushDelivery.Deliver("Test notification",
+                                 "If you received this, PushyFinder is configured correctly.");
         }
 
         if (notifSentMessageTimer.Value)
