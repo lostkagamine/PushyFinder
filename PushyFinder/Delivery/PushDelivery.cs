@@ -12,11 +12,14 @@ public static class PushDelivery
 
     public static void Deliver(string title, string text = "")
     {
-        if (Plugin.Configuration.PushoverAppKey.Length == 0 ||
-            Plugin.Configuration.PushoverDevice.Length == 0 ||
-            Plugin.Configuration.PushoverUserKey.Length == 0) return;
-
-        Task.Run(() => DeliverAsync(title, text));
+        if (!Plugin.Configuration.PushoverAppKey.IsNullOrWhitespace() ||
+            !Plugin.Configuration.PushoverDevice.IsNullOrWhitespace() ||
+            !Plugin.Configuration.PushoverUserKey.IsNullOrWhitespace() ||
+            !Plugin.Configuration.DiscordWebhookToken.IsNullOrWhitespace())
+        {
+            Service.PluginLog.Debug("Sending message to ThreadPool");
+            Task.Run(() => DeliverAsync(title, text));
+        }
     }
 
     private static async void DeliverAsync(string title, string text)
@@ -26,17 +29,18 @@ public static class PushDelivery
             !Plugin.Configuration.PushoverDevice.IsNullOrWhitespace())
         {
             var args = new Dictionary<string, string>
-        {
-            { "token", Plugin.Configuration.PushoverAppKey },
-            { "user", Plugin.Configuration.PushoverUserKey },
-            { "device", Plugin.Configuration.PushoverDevice },
-            { "title", title },
-            { "message", text }
-        };
+            {
+                { "token", Plugin.Configuration.PushoverAppKey },
+                { "user", Plugin.Configuration.PushoverUserKey },
+                { "device", Plugin.Configuration.PushoverDevice },
+                { "title", title },
+                { "message", text }
+            };
 
             try
             {
                 await PUSHOVER_API.PostJsonAsync(args);
+                Service.PluginLog.Debug("Sent Pushover message");
             }
             catch (FlurlHttpException e)
             {
@@ -60,22 +64,24 @@ public static class PushDelivery
                                   .WithDescription(text)
                                   .WithTitle(title)
                                   .WithColor(Plugin.Configuration.DiscordEmbedColor)
-                                  .WithAuthor("PushyFinder", "https://github.com/lostkagamine/PushyFinder", "https://raw.githubusercontent.com/goatcorp/PluginDistD17/blob/main/stable/PushyFinder/images/icon.png"));
+                                  .WithAuthor("PushyFinder", "https://github.com/lostkagamine/PushyFinder", "https://raw.githubusercontent.com/goatcorp/PluginDistD17/main/stable/PushyFinder/images/icon.png"));
             }
 
-            webhook.WithAvatarUrl("https://raw.githubusercontent.com/goatcorp/PluginDistD17/blob/main/stable/PushyFinder/images/icon.png");
+            webhook.WithAvatarUrl("https://raw.githubusercontent.com/goatcorp/PluginDistD17/main/stable/PushyFinder/images/icon.png");
             webhook.WithUsername("PushyFinder");
 
             try
             {
                 // this can break if they register a webhook to a channel type of forum or media
-                await Plugin.Configuration.DiscordWebhookToken.PostJsonAsync(webhook);
+                await Plugin.Configuration.DiscordWebhookToken.PostJsonAsync(webhook.Build());
+                Service.PluginLog.Debug("Sent Discord message");
             }
             catch (FlurlHttpException e)
             {
                 // Discord returns a json object within the message that contains the error not sure if this is something that should be parsed or not
                 Service.PluginLog.Error($"Failed to make Discord request: '{e.Message}'");
                 Service.PluginLog.Error($"{e.StackTrace}");
+                Service.PluginLog.Debug(FlurlHttp.GlobalSettings.JsonSerializer.Serialize(webhook.Build()));
             }
         }
     }

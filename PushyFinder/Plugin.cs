@@ -3,6 +3,9 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
+using Flurl.Http;
+using Flurl.Http.Configuration;
+using Newtonsoft.Json;
 using PushyFinder.Impl;
 using PushyFinder.Util;
 using PushyFinder.Windows;
@@ -53,6 +56,15 @@ namespace PushyFinder
             CrossWorldPartyListSystem.Start();
             PartyListener.On();
             DutyListener.On();
+
+            // Configure Flurl to ignore null values when serializing.
+            FlurlHttp.Configure(settings =>
+            {
+                settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+            });
         }
 
         public void Dispose()
