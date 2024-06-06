@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Numerics;
 
 namespace PushyFinder.Discord
@@ -19,6 +20,25 @@ namespace PushyFinder.Discord
         public Provider? Provider { get; set; }
         public Author? Author { get; set; }
         public List<Field>? Fields { get; set; }
+
+        public object ToJson()
+        {
+            return new
+            {
+                title = Title,
+                description = Description,
+                url = Url,
+                timestamp = Timestamp,
+                color = Color,
+                footer = Footer?.ToJson(),
+                image = Image?.ToJson(),
+                thumbnail = Thumbnail?.ToJson(),
+                video = Video?.ToJson(),
+                provider = Provider?.ToJson(),
+                author = Author?.ToJson(),
+                fields = Fields?.Select(t => t.ToJson()).ToArray()
+            };
+        }
     }
 
     public class Footer
@@ -26,6 +46,16 @@ namespace PushyFinder.Discord
         public string Text { get; set; } = string.Empty;
         public string? IconUrl { get; set; }
         public string? ProxyIconUrl { get; set; }
+
+        public object ToJson()
+        {
+            return new
+            {
+                text = Text,
+                icon_url = IconUrl,
+                proxy_icon_url = ProxyIconUrl
+            };
+        }
     }
 
     public class Image
@@ -34,12 +64,32 @@ namespace PushyFinder.Discord
         public string? ProxyUrl { get; set; }
         public int? Height { get; set; }
         public int? Width { get; set; }
+
+        public object ToJson()
+        {
+            return new
+            {
+                url = Url,
+                proxy_url = ProxyUrl,
+                height = Height,
+                width = Width
+            };
+        }
     }
 
     public class Provider
     {
         public string? Name { get; set; }
         public string? Url { get; set; }
+
+        public object ToJson()
+        {
+            return new
+            {
+                name = Name,
+                url = Url
+            };
+        }
     }
 
     public class Author
@@ -48,6 +98,17 @@ namespace PushyFinder.Discord
         public string? Url { get; set; }
         public string? IconUrl { get; set; }
         public string? ProxyIconUrl { get; set; }
+
+        public object ToJson()
+        {
+            return new
+            {
+                name = Name,
+                url = Url,
+                icon_url = IconUrl,
+                proxy_icon_url = ProxyIconUrl
+            };
+        }
     }
 
     public class Field
@@ -55,6 +116,16 @@ namespace PushyFinder.Discord
         public string Name { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
         public bool? Inline { get; set; }
+
+        public object ToJson()
+        {
+            return new
+            {
+                name = Name,
+                value = Value,
+                inline = Inline
+            };
+        }
     }
 
     public class EmbedBuilder

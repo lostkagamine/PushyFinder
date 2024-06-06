@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PushyFinder.Discord
 {
@@ -131,11 +132,11 @@ namespace PushyFinder.Discord
                 username = _webhook.Username,
                 avatar_url = _webhook.AvatarUrl,
                 tts = _webhook.Tts,
-                embeds = _webhook.Embeds,
-                allowed_mentions = _webhook.AllowedMentions,
+                embeds = _webhook.Embeds?.Select(t => t.ToJson()).ToArray(),
+                allowed_mentions = _webhook.AllowedMentions?.ToJson(),
                 flags = _webhook.Flags,
                 thread_name = _webhook.ThreadName,
-                applied_tags = _webhook.AppliedTags
+                applied_tags = _webhook.AppliedTags?.Select(t => t.ToString()).ToArray()
             };
         }
     }

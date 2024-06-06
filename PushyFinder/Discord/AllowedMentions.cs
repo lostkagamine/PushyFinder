@@ -10,6 +10,17 @@ namespace PushyFinder.Discord
         public List<ulong>? Roles { get; set; }
         public List<ulong>? Users { get; set; }
         public bool? RepliedUser { get; set; }
+
+        public object ToJson()
+        {
+            return new
+            {
+                parse = Parse,
+                roles = Roles?.Select(t => t.ToString()).ToArray(),
+                users = Users?.Select(t => t.ToString()).ToArray(),
+                replied_user = RepliedUser
+            };
+        }
     }
 
     public class AllowedMentionsBuilder
