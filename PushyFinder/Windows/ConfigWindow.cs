@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Numerics;
+using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using PushyFinder.Delivery;
@@ -23,7 +24,7 @@ public class ConfigWindow : Window, IDisposable
 
     private TimedBool notifSentMessageTimer = new(3.0f);
 
-    public override void Draw()
+    private void DrawPushoverConfig()
     {
         {
             var cfg = Configuration.PushoverAppKey;
@@ -53,11 +54,57 @@ public class ConfigWindow : Window, IDisposable
                 Configuration.EnableForDutyPops = cfg;
             }
         }
+    }
+
+    private void DrawDiscordConfig()
+    {
+        {
+            var cfg = Configuration.DiscordWebhookToken;
+            if (ImGui.InputText("Webhook token", ref cfg, 2048u))
+            {
+                Configuration.DiscordWebhookToken = cfg;
+            }
+        }
+        {
+            var cfg = Configuration.DiscordUseEmbed;
+            if (ImGui.Checkbox("Use embeds?", ref cfg))
+            {
+                Configuration.DiscordUseEmbed = cfg;
+            }
+        }
+        {
+            var vec3Col = new Vector3();
+            var cfg = Configuration.DiscordEmbedColor;
+            vec3Col.X = ((cfg >> 16) & 0xFF) / 255.0f;
+            vec3Col.Y = ((cfg >> 8) & 0xFF) / 255.0f;
+            vec3Col.Z = (cfg & 0xFF) / 255.0f;
+            if (ImGui.ColorEdit3("Embed color", ref vec3Col))
+            {
+                cfg = ((uint)(vec3Col.X * 255) << 16) | ((uint)(vec3Col.Y * 255) << 8) | (uint)(vec3Col.Z * 255);
+                Configuration.DiscordEmbedColor = cfg;
+            }
+        }
+    }
+
+    public override void Draw()
+    {
+        if (ImRaii.TabBar("Services"))
+        {
+            if (ImRaii.TabItem("Pushover"))
+            {
+                DrawPushoverConfig();
+            }
+
+            if (ImRaii.TabItem("Discord"))
+            {
+                DrawDiscordConfig();
+            }
+        }
 
         if (ImGui.Button("Send test notification"))
         {
             notifSentMessageTimer.Start();
-            PushoverDelivery.Deliver("Test notification", 
+            PushDelivery.Deliver("Test notification", 
                                      "If you received this, PushyFinder is configured correctly.");
         }
 

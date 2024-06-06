@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Game;
-using Dalamud.Game.ClientState.Party;
-using Dalamud.Logging;
 using Dalamud.Memory;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;

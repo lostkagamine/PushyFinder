@@ -1,5 +1,3 @@
-using Dalamud.Game.ClientState;
-
 namespace PushyFinder.Util;
 
 public static class CharacterUtil

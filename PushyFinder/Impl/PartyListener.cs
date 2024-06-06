@@ -1,7 +1,3 @@
-using System.Linq;
-using Dalamud.Game.ClientState.Party;
-using Dalamud.Logging;
-using Lumina.Excel.GeneratedSheets;
 using PushyFinder.Delivery;
 using PushyFinder.Util;
 
@@ -31,12 +27,12 @@ public static class PartyListener
 
         if (m.PartyCount == 8)
         {
-            PushoverDelivery.Deliver("Party full",
+            PushDelivery.Deliver("Party full",
                                      $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.\nParty recruitment ended. All spots have been filled.");
         }
         else
         {
-            PushoverDelivery.Deliver($"{m.PartyCount}/8: Party join",
+            PushDelivery.Deliver($"{m.PartyCount}/8: Party join",
                                      $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.");
         }
     }
@@ -47,7 +43,7 @@ public static class PartyListener
         
         var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
 
-        PushoverDelivery.Deliver($"{m.PartyCount-1}/8: Party leave",
+        PushDelivery.Deliver($"{m.PartyCount-1}/8: Party leave",
                                  $"{m.Name} (Lv{m.Level} {jobAbbr}) has left the party.");
     }
 }
