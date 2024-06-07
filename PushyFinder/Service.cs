@@ -1,9 +1,3 @@
-using Dalamud.Data;
-using Dalamud.Game;
-using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Party;
-using Dalamud.Game.Command;
-using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
@@ -26,10 +20,10 @@ public class Service
 
     [PluginService]
     public static IFramework Framework { get; private set; } = null!;
-    
+
     [PluginService]
     public static IChatGui ChatGui { get; private set; } = null!;
-    
+
     [PluginService]
     public static IDataManager DataManager { get; private set; } = null!;
 

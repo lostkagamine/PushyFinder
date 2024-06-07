@@ -1,7 +1,3 @@
-using System.Linq;
-using Dalamud.Game.ClientState.Party;
-using Dalamud.Logging;
-using Lumina.Excel.GeneratedSheets;
 using PushyFinder.Delivery;
 using PushyFinder.Util;
 
@@ -15,7 +11,7 @@ public static class PartyListener
         CrossWorldPartyListSystem.OnJoin += OnJoin;
         CrossWorldPartyListSystem.OnLeave += OnLeave;
     }
-    
+
     public static void Off()
     {
         Service.PluginLog.Debug("PartyListener Off");
@@ -31,23 +27,23 @@ public static class PartyListener
 
         if (m.PartyCount == 8)
         {
-            PushoverDelivery.Deliver("Party full",
-                                     $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.\nParty recruitment ended. All spots have been filled.");
+            MasterDelivery.Deliver("Party full",
+                                   $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.\nParty recruitment ended. All spots have been filled.");
         }
         else
         {
-            PushoverDelivery.Deliver($"{m.PartyCount}/8: Party join",
-                                     $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.");
+            MasterDelivery.Deliver($"{m.PartyCount}/8: Party join",
+                                   $"{m.Name} (Lv{m.Level} {jobAbbr}) joins the party.");
         }
     }
-    
+
     private static void OnLeave(CrossWorldPartyListSystem.CrossWorldMember m)
     {
         if (!CharacterUtil.IsClientAfk()) return;
-        
+
         var jobAbbr = LuminaDataUtil.GetJobAbbreviation(m.JobId);
 
-        PushoverDelivery.Deliver($"{m.PartyCount-1}/8: Party leave",
-                                 $"{m.Name} (Lv{m.Level} {jobAbbr}) has left the party.");
+        MasterDelivery.Deliver($"{m.PartyCount - 1}/8: Party leave",
+                               $"{m.Name} (Lv{m.Level} {jobAbbr}) has left the party.");
     }
 }

@@ -26,8 +26,8 @@ public class DutyListener
 
         if (!CharacterUtil.IsClientAfk())
             return;
-        
+
         var dutyName = e.RowId == 0 ? "Duty Roulette" : e.Name.ToDalamudString().TextValue;
-        PushoverDelivery.Deliver($"Duty pop", $"Duty registered: '{dutyName}'.");
+        MasterDelivery.Deliver("Duty pop", $"Duty registered: '{dutyName}'.");
     }
 }

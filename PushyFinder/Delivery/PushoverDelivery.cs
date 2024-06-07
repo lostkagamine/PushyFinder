@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dalamud.Logging;
+using Dalamud.Utility;
 using Flurl.Http;
 
 namespace PushyFinder.Delivery;
 
-public static class PushoverDelivery
+public class PushoverDelivery : IDelivery
 {
     public static readonly string PUSHOVER_API = "https://api.pushover.net/1/messages.json";
-    
-    public static void Deliver(string title, string text = "")
+
+    public bool IsActive => !Plugin.Configuration.PushoverAppKey.IsNullOrWhitespace() &&
+                            !Plugin.Configuration.PushoverDevice.IsNullOrWhitespace() &&
+                            !Plugin.Configuration.PushoverUserKey.IsNullOrWhitespace();
+
+    public void Deliver(string title, string text)
     {
-        if (Plugin.Configuration.PushoverAppKey.Length == 0 ||
-            Plugin.Configuration.PushoverDevice.Length == 0 ||
-            Plugin.Configuration.PushoverUserKey.Length == 0) return;
-        
         Task.Run(() => DeliverAsync(title, text));
     }
 
@@ -32,6 +32,7 @@ public static class PushoverDelivery
         try
         {
             await PUSHOVER_API.PostJsonAsync(args);
+            Service.PluginLog.Debug("Sent Pushover message");
         }
         catch (FlurlHttpException e)
         {

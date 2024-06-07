@@ -4,15 +4,25 @@ namespace PushyFinder.Util;
 
 public class TimedBool
 {
-    private Stopwatch watch;
-    private float time;
-    private bool running = false;
+    private bool running;
+    private readonly float time;
+    private readonly Stopwatch watch;
 
     public TimedBool(float time)
     {
         watch = new Stopwatch();
         running = false;
         this.time = time;
+    }
+
+    public bool Value
+    {
+        get
+        {
+            var sw = watch.Elapsed.TotalSeconds < time;
+            if (!sw) Stop();
+            return running && sw;
+        }
     }
 
     public TimedBool Start()
@@ -27,18 +37,5 @@ public class TimedBool
         running = false;
         watch.Stop();
         return this;
-    }
-    
-    public bool Value
-    {
-        get
-        {
-            var sw = watch.Elapsed.TotalSeconds < time;
-            if (!sw)
-            {
-                Stop();
-            }
-            return running && sw;
-        }
     }
 }
