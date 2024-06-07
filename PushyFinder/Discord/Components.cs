@@ -1,6 +1,3 @@
-namespace PushyFinder.Discord
-{
-    internal class Components
-    {
-    }
-}
+namespace PushyFinder.Discord;
+
+internal class Components { }

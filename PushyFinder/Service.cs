@@ -20,10 +20,10 @@ public class Service
 
     [PluginService]
     public static IFramework Framework { get; private set; } = null!;
-    
+
     [PluginService]
     public static IChatGui ChatGui { get; private set; } = null!;
-    
+
     [PluginService]
     public static IDataManager DataManager { get; private set; } = null!;
 

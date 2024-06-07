@@ -1,6 +1,3 @@
-namespace PushyFinder.Discord
-{
-    internal class Poll
-    {
-    }
-}
+namespace PushyFinder.Discord;
+
+internal class Poll { }

@@ -10,7 +10,9 @@ namespace PushyFinder.Windows;
 
 public class ConfigWindow : Window, IDisposable
 {
-    private Configuration Configuration;
+    private readonly Configuration Configuration;
+
+    private readonly TimedBool notifSentMessageTimer = new(3.0f);
 
     public ConfigWindow(Plugin plugin) : base(
         "PushyFinder Configuration",
@@ -22,37 +24,23 @@ public class ConfigWindow : Window, IDisposable
 
     public void Dispose() { }
 
-    private TimedBool notifSentMessageTimer = new(3.0f);
-
     private void DrawPushoverConfig()
     {
         {
             var cfg = Configuration.PushoverAppKey;
-            if (ImGui.InputText("Application key", ref cfg, 2048u))
-            {
-                Configuration.PushoverAppKey = cfg;
-            }
+            if (ImGui.InputText("Application key", ref cfg, 2048u)) Configuration.PushoverAppKey = cfg;
         }
         {
             var cfg = Configuration.PushoverUserKey;
-            if (ImGui.InputText("User key", ref cfg, 2048u))
-            {
-                Configuration.PushoverUserKey = cfg;
-            }
+            if (ImGui.InputText("User key", ref cfg, 2048u)) Configuration.PushoverUserKey = cfg;
         }
         {
             var cfg = Configuration.PushoverDevice;
-            if (ImGui.InputText("Device name", ref cfg, 2048u))
-            {
-                Configuration.PushoverDevice = cfg;
-            }
+            if (ImGui.InputText("Device name", ref cfg, 2048u)) Configuration.PushoverDevice = cfg;
         }
         {
             var cfg = Configuration.EnableForDutyPops;
-            if (ImGui.Checkbox("Send message for duty pop?", ref cfg))
-            {
-                Configuration.EnableForDutyPops = cfg;
-            }
+            if (ImGui.Checkbox("Send message for duty pop?", ref cfg)) Configuration.EnableForDutyPops = cfg;
         }
     }
 
@@ -60,17 +48,11 @@ public class ConfigWindow : Window, IDisposable
     {
         {
             var cfg = Configuration.DiscordWebhookToken;
-            if (ImGui.InputText("Webhook token", ref cfg, 2048u))
-            {
-                Configuration.DiscordWebhookToken = cfg;
-            }
+            if (ImGui.InputText("Webhook token", ref cfg, 2048u)) Configuration.DiscordWebhookToken = cfg;
         }
         {
             var cfg = Configuration.DiscordUseEmbed;
-            if (ImGui.Checkbox("Use embeds?", ref cfg))
-            {
-                Configuration.DiscordUseEmbed = cfg;
-            }
+            if (ImGui.Checkbox("Use embeds?", ref cfg)) Configuration.DiscordUseEmbed = cfg;
         }
         {
             var vec3Col = new Vector3();
@@ -94,18 +76,12 @@ public class ConfigWindow : Window, IDisposable
             {
                 using (var pushoverTab = ImRaii.TabItem("Pushover"))
                 {
-                    if (pushoverTab)
-                    {
-                        DrawPushoverConfig();
-                    }
+                    if (pushoverTab) DrawPushoverConfig();
                 }
 
                 using (var discordTab = ImRaii.TabItem("Discord"))
                 {
-                    if (discordTab)
-                    {
-                        DrawDiscordConfig();
-                    }
+                    if (discordTab) DrawDiscordConfig();
                 }
             }
         }
@@ -115,8 +91,8 @@ public class ConfigWindow : Window, IDisposable
         if (ImGui.Button("Send test notification"))
         {
             notifSentMessageTimer.Start();
-            PushDelivery.Deliver("Test notification",
-                                 "If you received this, PushyFinder is configured correctly.");
+            MasterDelivery.Deliver("Test notification",
+                                   "If you received this, PushyFinder is configured correctly.");
         }
 
         if (notifSentMessageTimer.Value)
@@ -127,10 +103,7 @@ public class ConfigWindow : Window, IDisposable
 
         {
             var cfg = Configuration.IgnoreAfkStatus;
-            if (ImGui.Checkbox("Ignore AFK status and always notify", ref cfg))
-            {
-                Configuration.IgnoreAfkStatus = cfg;
-            }
+            if (ImGui.Checkbox("Ignore AFK status and always notify", ref cfg)) Configuration.IgnoreAfkStatus = cfg;
         }
 
         if (!Configuration.IgnoreAfkStatus)

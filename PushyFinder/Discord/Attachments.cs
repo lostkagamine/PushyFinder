@@ -1,6 +1,3 @@
-namespace PushyFinder.Discord
-{
-    internal class Attachments
-    {
-    }
-}
+namespace PushyFinder.Discord;
+
+internal class Attachments { }

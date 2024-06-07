@@ -4,277 +4,272 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 
-namespace PushyFinder.Discord
+namespace PushyFinder.Discord;
+
+public class Embed
 {
-    public class Embed
-    {
-        public string? Title { get; set; }
-        public string? Description { get; set; }
-        public string? Url { get; set; }
-        public string? Timestamp { get; set; }
-        public uint? Color { get; set; }
-        public Footer? Footer { get; set; }
-        public Image? Image { get; set; }
-        public Image? Thumbnail { get; set; }
-        public Image? Video { get; set; }
-        public Provider? Provider { get; set; }
-        public Author? Author { get; set; }
-        public List<Field>? Fields { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public string? Url { get; set; }
+    public string? Timestamp { get; set; }
+    public uint? Color { get; set; }
+    public Footer? Footer { get; set; }
+    public Image? Image { get; set; }
+    public Image? Thumbnail { get; set; }
+    public Image? Video { get; set; }
+    public Provider? Provider { get; set; }
+    public Author? Author { get; set; }
+    public List<Field>? Fields { get; set; }
 
-        public object ToJson()
+    public object ToJson()
+    {
+        return new
         {
-            return new
-            {
-                title = Title,
-                description = Description,
-                url = Url,
-                timestamp = Timestamp,
-                color = Color,
-                footer = Footer?.ToJson(),
-                image = Image?.ToJson(),
-                thumbnail = Thumbnail?.ToJson(),
-                video = Video?.ToJson(),
-                provider = Provider?.ToJson(),
-                author = Author?.ToJson(),
-                fields = Fields?.Select(t => t.ToJson()).ToArray()
-            };
-        }
+            title = Title,
+            description = Description,
+            url = Url,
+            timestamp = Timestamp,
+            color = Color,
+            footer = Footer?.ToJson(),
+            image = Image?.ToJson(),
+            thumbnail = Thumbnail?.ToJson(),
+            video = Video?.ToJson(),
+            provider = Provider?.ToJson(),
+            author = Author?.ToJson(),
+            fields = Fields?.Select(t => t.ToJson()).ToArray()
+        };
+    }
+}
+
+public class Footer
+{
+    public string Text { get; set; } = string.Empty;
+    public string? IconUrl { get; set; }
+    public string? ProxyIconUrl { get; set; }
+
+    public object ToJson()
+    {
+        return new
+        {
+            text = Text,
+            icon_url = IconUrl,
+            proxy_icon_url = ProxyIconUrl
+        };
+    }
+}
+
+public class Image
+{
+    public string Url { get; set; } = string.Empty;
+    public string? ProxyUrl { get; set; }
+    public int? Height { get; set; }
+    public int? Width { get; set; }
+
+    public object ToJson()
+    {
+        return new
+        {
+            url = Url,
+            proxy_url = ProxyUrl,
+            height = Height,
+            width = Width
+        };
+    }
+}
+
+public class Provider
+{
+    public string? Name { get; set; }
+    public string? Url { get; set; }
+
+    public object ToJson()
+    {
+        return new
+        {
+            name = Name,
+            url = Url
+        };
+    }
+}
+
+public class Author
+{
+    public string Name { get; set; } = string.Empty;
+    public string? Url { get; set; }
+    public string? IconUrl { get; set; }
+    public string? ProxyIconUrl { get; set; }
+
+    public object ToJson()
+    {
+        return new
+        {
+            name = Name,
+            url = Url,
+            icon_url = IconUrl,
+            proxy_icon_url = ProxyIconUrl
+        };
+    }
+}
+
+public class Field
+{
+    public string Name { get; set; } = string.Empty;
+    public string Value { get; set; } = string.Empty;
+    public bool? Inline { get; set; }
+
+    public object ToJson()
+    {
+        return new
+        {
+            name = Name,
+            value = Value,
+            inline = Inline
+        };
+    }
+}
+
+public class EmbedBuilder
+{
+    private readonly Embed _embed = new();
+
+    public EmbedBuilder WithTitle(string title)
+    {
+        _embed.Title = title;
+        return this;
     }
 
-    public class Footer
+    public EmbedBuilder WithDescription(string description)
     {
-        public string Text { get; set; } = string.Empty;
-        public string? IconUrl { get; set; }
-        public string? ProxyIconUrl { get; set; }
-
-        public object ToJson()
-        {
-            return new
-            {
-                text = Text,
-                icon_url = IconUrl,
-                proxy_icon_url = ProxyIconUrl
-            };
-        }
+        _embed.Description = description;
+        return this;
     }
 
-    public class Image
+    public EmbedBuilder WithUrl(string url)
     {
-        public string Url { get; set; } = string.Empty;
-        public string? ProxyUrl { get; set; }
-        public int? Height { get; set; }
-        public int? Width { get; set; }
-
-        public object ToJson()
-        {
-            return new
-            {
-                url = Url,
-                proxy_url = ProxyUrl,
-                height = Height,
-                width = Width
-            };
-        }
+        _embed.Url = url;
+        return this;
     }
 
-    public class Provider
+    public EmbedBuilder WithTimestamp(DateTimeOffset timestamp)
     {
-        public string? Name { get; set; }
-        public string? Url { get; set; }
-
-        public object ToJson()
-        {
-            return new
-            {
-                name = Name,
-                url = Url
-            };
-        }
+        _embed.Timestamp = timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ");
+        return this;
     }
 
-    public class Author
+    public EmbedBuilder WithColor(string colorString)
     {
-        public string Name { get; set; } = string.Empty;
-        public string? Url { get; set; }
-        public string? IconUrl { get; set; }
-        public string? ProxyIconUrl { get; set; }
+        var index = colorString.IndexOf('#') + 1;
+        var color = colorString[index..];
+        if (color.Length != 6) throw new ArgumentException("Color must be in the format RRGGBB");
 
-        public object ToJson()
-        {
-            return new
-            {
-                name = Name,
-                url = Url,
-                icon_url = IconUrl,
-                proxy_icon_url = ProxyIconUrl
-            };
-        }
+        return WithColor(uint.Parse(color, NumberStyles.AllowHexSpecifier));
     }
 
-    public class Field
+    public EmbedBuilder WithColor(Vector4 color)
     {
-        public string Name { get; set; } = string.Empty;
-        public string Value { get; set; } = string.Empty;
-        public bool? Inline { get; set; }
-
-        public object ToJson()
-        {
-            return new
-            {
-                name = Name,
-                value = Value,
-                inline = Inline
-            };
-        }
+        var colorInt = (uint)(color.X * 255) << 16;
+        colorInt += (uint)(color.Y * 255) << 8;
+        colorInt += (uint)(color.Z * 255);
+        return WithColor(colorInt);
     }
 
-    public class EmbedBuilder
+    public EmbedBuilder WithColor(uint color)
     {
-        private readonly Embed _embed = new();
+        _embed.Color = color;
+        return this;
+    }
 
-        public EmbedBuilder WithTitle(string title)
+    public EmbedBuilder WithFooter(string text, string? iconUrl = null, string? proxyIconUrl = null)
+    {
+        _embed.Footer = new Footer
         {
-            _embed.Title = title;
-            return this;
-        }
+            Text = text,
+            IconUrl = iconUrl,
+            ProxyIconUrl = proxyIconUrl
+        };
+        return this;
+    }
 
-        public EmbedBuilder WithDescription(string description)
+    public EmbedBuilder WithImage(string url, string? proxyUrl = null, int? height = null, int? width = null)
+    {
+        _embed.Image = new Image
         {
-            _embed.Description = description;
-            return this;
-        }
+            Url = url,
+            ProxyUrl = proxyUrl,
+            Height = height,
+            Width = width
+        };
+        return this;
+    }
 
-        public EmbedBuilder WithUrl(string url)
+    public EmbedBuilder WithThumbnail(string url, string? proxyUrl = null, int? height = null, int? width = null)
+    {
+        _embed.Thumbnail = new Image
         {
-            _embed.Url = url;
-            return this;
-        }
+            Url = url,
+            ProxyUrl = proxyUrl,
+            Height = height,
+            Width = width
+        };
+        return this;
+    }
 
-        public EmbedBuilder WithTimestamp(DateTimeOffset timestamp)
+    public EmbedBuilder WithVideo(string url, string? proxyUrl = null, int? height = null, int? width = null)
+    {
+        _embed.Video = new Image
         {
-            _embed.Timestamp = timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            return this;
-        }
+            Url = url,
+            ProxyUrl = proxyUrl,
+            Height = height,
+            Width = width
+        };
+        return this;
+    }
 
-        public EmbedBuilder WithColor(string colorString)
+    public EmbedBuilder WithProvider(string name, string? url = null)
+    {
+        _embed.Provider = new Provider
         {
-            var index = colorString.IndexOf('#') + 1;
-            var color = colorString[index..];
-            if (color.Length != 6)
-            {
-                throw new ArgumentException("Color must be in the format RRGGBB");
-            }
+            Name = name,
+            Url = url
+        };
+        return this;
+    }
 
-            return WithColor(uint.Parse(color, NumberStyles.AllowHexSpecifier));
-        }
-
-        public EmbedBuilder WithColor(Vector4 color)
+    public EmbedBuilder WithAuthor(
+        string name, string? url = null, string? iconUrl = null, string? proxyIconUrl = null)
+    {
+        _embed.Author = new Author
         {
-            var colorInt = (uint)(color.X * 255) << 16;
-            colorInt += (uint)(color.Y * 255) << 8;
-            colorInt += (uint)(color.Z * 255);
-            return WithColor(colorInt);
-        }
+            Name = name,
+            Url = url,
+            IconUrl = iconUrl,
+            ProxyIconUrl = proxyIconUrl
+        };
+        return this;
+    }
 
-        public EmbedBuilder WithColor(uint color)
-        {
-            _embed.Color = color;
-            return this;
-        }
+    public EmbedBuilder WithField(string name, string value, bool inline = false)
+    {
+        _embed.Fields ??= [];
 
-        public EmbedBuilder WithFooter(string text, string? iconUrl = null, string? proxyIconUrl = null)
+        if (_embed.Fields.Count < 25)
         {
-            _embed.Footer = new Footer
-            {
-                Text = text,
-                IconUrl = iconUrl,
-                ProxyIconUrl = proxyIconUrl
-            };
-            return this;
-        }
-
-        public EmbedBuilder WithImage(string url, string? proxyUrl = null, int? height = null, int? width = null)
-        {
-            _embed.Image = new Image
-            {
-                Url = url,
-                ProxyUrl = proxyUrl,
-                Height = height,
-                Width = width
-            };
-            return this;
-        }
-
-        public EmbedBuilder WithThumbnail(string url, string? proxyUrl = null, int? height = null, int? width = null)
-        {
-            _embed.Thumbnail = new Image
-            {
-                Url = url,
-                ProxyUrl = proxyUrl,
-                Height = height,
-                Width = width
-            };
-            return this;
-        }
-
-        public EmbedBuilder WithVideo(string url, string? proxyUrl = null, int? height = null, int? width = null)
-        {
-            _embed.Video = new Image
-            {
-                Url = url,
-                ProxyUrl = proxyUrl,
-                Height = height,
-                Width = width
-            };
-            return this;
-        }
-
-        public EmbedBuilder WithProvider(string name, string? url = null)
-        {
-            _embed.Provider = new Provider
+            _embed.Fields.Add(new Field
             {
                 Name = name,
-                Url = url
-            };
-            return this;
+                Value = value,
+                Inline = inline
+            });
         }
+        else
+            throw new InvalidOperationException("Field limit reached");
 
-        public EmbedBuilder WithAuthor(
-            string name, string? url = null, string? iconUrl = null, string? proxyIconUrl = null)
-        {
-            _embed.Author = new Author
-            {
-                Name = name,
-                Url = url,
-                IconUrl = iconUrl,
-                ProxyIconUrl = proxyIconUrl
-            };
-            return this;
-        }
+        return this;
+    }
 
-        public EmbedBuilder WithField(string name, string value, bool inline = false)
-        {
-            _embed.Fields ??= [];
-
-            if (_embed.Fields.Count < 25)
-            {
-                _embed.Fields.Add(new Field
-                {
-                    Name = name,
-                    Value = value,
-                    Inline = inline
-                });
-            }
-            else
-            {
-                throw new InvalidOperationException("Field limit reached");
-            }
-            return this;
-        }
-
-        public Embed Build()
-        {
-            return _embed;
-        }
+    public Embed Build()
+    {
+        return _embed;
     }
 }
