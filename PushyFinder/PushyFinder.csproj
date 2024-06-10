@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors>Nightshade System</Authors>
     <Company>Nightshade System</Company>
-    <Version>1.1.1.0</Version>
+    <Version>1.2.0.0</Version>
     <Description>Check on your party while away from the computer.</Description>
     <Copyright>(C) 2023-2024 Nightshade System</Copyright>
     <PackageProjectUrl>https://github.com/lostkagamine/PushyFinder</PackageProjectUrl>
