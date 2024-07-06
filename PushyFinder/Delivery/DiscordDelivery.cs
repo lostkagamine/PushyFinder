@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Threading.Tasks;
 using Dalamud.Utility;
 using Flurl.Http;
@@ -46,7 +47,7 @@ internal class DiscordDelivery : IDelivery
             // Discord returns a json object within the message that contains the error not sure if this is something that should be parsed or not
             Service.PluginLog.Error($"Failed to make Discord request: '{e.Message}'");
             Service.PluginLog.Error($"{e.StackTrace}");
-            Service.PluginLog.Debug(FlurlHttp.GlobalSettings.JsonSerializer.Serialize(webhook.Build()));
+            Service.PluginLog.Debug(JsonSerializer.Serialize(webhook.Build()));
         }
     }
 }

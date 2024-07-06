@@ -29,14 +29,7 @@ public static class CrossWorldPartyListSystem
     }
 
     private static bool ListContainsMember(List<CrossWorldMember> l, CrossWorldMember m)
-    {
-        // oh this is incredibly fucking stupid
-        foreach (var a in l)
-            if (a.Name == m.Name)
-                return true;
-
-        return false;
-    }
+        => l.Any(a => a.Name == m.Name);
 
     private static unsafe void Update(IFramework framework)
     {

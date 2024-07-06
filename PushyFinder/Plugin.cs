@@ -56,15 +56,6 @@ public sealed class Plugin : IDalamudPlugin
         CrossWorldPartyListSystem.Start();
         PartyListener.On();
         DutyListener.On();
-
-        // Configure Flurl to ignore null values when serializing.
-        FlurlHttp.Configure(settings =>
-        {
-            settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-        });
     }
 
     public void Dispose()
