@@ -51,7 +51,7 @@ public static class CrossWorldPartyListSystem
         for (var i = 0u; i < partyCount; i++)
         {
             var addr = InfoProxyCrossRealm.GetGroupMember(i);
-            var name = MemoryHelper.ReadStringNullTerminated((nint)addr->Name);
+            var name = addr->NameString;
             var mObj = new CrossWorldMember
             {
                 Name = name,
@@ -64,8 +64,6 @@ public static class CrossWorldPartyListSystem
 
         if (members.Count != oldMembers.Count)
         {
-            // a change has been detected
-
             // Check for joins
             foreach (var i in members)
                 if (!ListContainsMember(oldMembers, i))
@@ -75,7 +73,6 @@ public static class CrossWorldPartyListSystem
                 }
 
             // Check for leaves
-            // Is this what we call 'iterating too much?'
             foreach (var i in oldMembers)
                 if (!ListContainsMember(members, i))
                 {
@@ -83,13 +80,11 @@ public static class CrossWorldPartyListSystem
                     OnLeave?.Invoke(i);
                 }
         }
-
-        // REFERENCE FUNNIES?
+        
+        // Fix potential broken references caused by memory semantics
         oldMembers = members.ToList();
     }
 
-    // Yes, there's already a type in Dalamud for this.
-    // TODO? add more if we end up needing it
     public struct CrossWorldMember
     {
         public string Name;

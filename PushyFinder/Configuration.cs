@@ -9,7 +9,7 @@ public class Configuration : IPluginConfiguration
 {
     // the below exist just to make saving less cumbersome
     [NonSerialized]
-    private DalamudPluginInterface? PluginInterface;
+    private IDalamudPluginInterface? PluginInterface;
 
     public string PushoverAppKey { get; set; } = "";
     public string PushoverUserKey { get; set; } = "";
@@ -21,7 +21,7 @@ public class Configuration : IPluginConfiguration
     public uint DiscordEmbedColor { get; set; } = 0x00FF00;
     public int Version { get; set; } = 1;
 
-    public void Initialize(DalamudPluginInterface pluginInterface)
+    public void Initialize(IDalamudPluginInterface pluginInterface)
     {
         PluginInterface = pluginInterface;
     }

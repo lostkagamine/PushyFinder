@@ -17,7 +17,7 @@ public sealed class Plugin : IDalamudPlugin
     public string Name => "PushyFinder";
     private const string CommandName = "/pushyfinder";
 
-    private DalamudPluginInterface PluginInterface { get; init; }
+    private IDalamudPluginInterface PluginInterface { get; init; }
     private ICommandManager CommandManager { get; init; }
 
     // This *is* used.
@@ -30,8 +30,8 @@ public sealed class Plugin : IDalamudPlugin
     private ConfigWindow ConfigWindow { get; init; }
 
     public Plugin(
-        [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-        [RequiredVersion("1.0")] ICommandManager commandManager)
+        IDalamudPluginInterface pluginInterface,
+        ICommandManager commandManager)
     {
         pluginInterface.Create<Service>();
 
