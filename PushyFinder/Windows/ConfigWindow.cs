@@ -39,6 +39,10 @@ public class ConfigWindow : Window, IDisposable
             if (ImGui.InputText("Device name", ref cfg, 2048u)) Configuration.PushoverDevice = cfg;
         }
         {
+            var cfg = Configuration.PushoverSound;
+            if (ImGui.InputText("Sound", ref cfg, 2048u)) Configuration.PushoverSound = cfg;
+        }
+        {
             var cfg = Configuration.EnableForDutyPops;
             if (ImGui.Checkbox("Send message for duty pop?", ref cfg)) Configuration.EnableForDutyPops = cfg;
         }

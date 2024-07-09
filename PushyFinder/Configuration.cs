@@ -14,6 +14,7 @@ public class Configuration : IPluginConfiguration
     public string PushoverAppKey { get; set; } = "";
     public string PushoverUserKey { get; set; } = "";
     public string PushoverDevice { get; set; } = "";
+    public string PushoverSound { get; set; } = "";
     public string DiscordWebhookToken { get; set; } = "";
     public bool EnableForDutyPops { get; set; } = true;
     public bool IgnoreAfkStatus { get; set; } = false;
