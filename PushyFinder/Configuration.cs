@@ -15,6 +15,8 @@ public class Configuration : IPluginConfiguration
     public string PushoverUserKey { get; set; } = "";
     public string PushoverDevice { get; set; } = "";
     public string DiscordWebhookToken { get; set; } = "";
+    public string NtfyServer { get; set; } = "https://ntfy.sh/";
+    public string NtfyTopic { get; set; } = "";
     public bool EnableForDutyPops { get; set; } = true;
     public bool IgnoreAfkStatus { get; set; } = false;
     public bool DiscordUseEmbed { get; set; } = true;
