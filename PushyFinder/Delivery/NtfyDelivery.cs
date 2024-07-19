@@ -25,9 +25,13 @@ public class NtfyDelivery : IDelivery
             { "icon", "https://raw.githubusercontent.com/goatcorp/PluginDistD17/main/stable/PushyFinder/images/icon.png" }
         };
 
+        var request = new FlurlRequest(Plugin.Configuration.NtfyServer);
+        if (!Plugin.Configuration.NtfyToken.IsNullOrWhitespace())
+            request = request.WithOAuthBearerToken(Plugin.Configuration.NtfyToken);
+
         try
         {
-            await Plugin.Configuration.NtfyServer.PostJsonAsync(args);
+            await request.PostJsonAsync(args);
             Service.PluginLog.Debug("Sent Ntfy message");
         }
         catch (FlurlHttpException e)

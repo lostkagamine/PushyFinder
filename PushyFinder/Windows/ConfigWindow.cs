@@ -50,6 +50,10 @@ public class ConfigWindow : Window, IDisposable
             var cfg = Configuration.NtfyTopic;
             if (ImGui.InputText("Topic", ref cfg, 2048u)) Configuration.NtfyTopic = cfg;
         }
+        {
+            var cfg = Configuration.NtfyToken;
+            if (ImGui.InputText("Token (if exists)", ref cfg, 2048u)) Configuration.NtfyToken = cfg;
+        }
     }
 
     private void DrawDiscordConfig()
