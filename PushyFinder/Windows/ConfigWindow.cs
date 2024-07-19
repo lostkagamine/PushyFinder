@@ -38,9 +38,21 @@ public class ConfigWindow : Window, IDisposable
             var cfg = Configuration.PushoverDevice;
             if (ImGui.InputText("Device name", ref cfg, 2048u)) Configuration.PushoverDevice = cfg;
         }
+    }
+
+    private void DrawNtfyConfig()
+    {
         {
-            var cfg = Configuration.EnableForDutyPops;
-            if (ImGui.Checkbox("Send message for duty pop?", ref cfg)) Configuration.EnableForDutyPops = cfg;
+            var cfg = Configuration.NtfyServer;
+            if (ImGui.InputText("Server", ref cfg, 2048u)) Configuration.NtfyServer = cfg;
+        }
+        {
+            var cfg = Configuration.NtfyTopic;
+            if (ImGui.InputText("Topic", ref cfg, 2048u)) Configuration.NtfyTopic = cfg;
+        }
+        {
+            var cfg = Configuration.NtfyToken;
+            if (ImGui.InputText("Token (if exists)", ref cfg, 2048u)) Configuration.NtfyToken = cfg;
         }
     }
 
@@ -78,7 +90,10 @@ public class ConfigWindow : Window, IDisposable
                 {
                     if (pushoverTab) DrawPushoverConfig();
                 }
-
+                using (var ntfyTab = ImRaii.TabItem("Ntfy"))
+                {
+                    if (ntfyTab) DrawNtfyConfig();
+                }
                 using (var discordTab = ImRaii.TabItem("Discord"))
                 {
                     if (discordTab) DrawDiscordConfig();
@@ -101,6 +116,10 @@ public class ConfigWindow : Window, IDisposable
             ImGui.Text("Notification sent!");
         }
 
+        {
+            var cfg = Configuration.EnableForDutyPops;
+            if (ImGui.Checkbox("Send message for duty pop?", ref cfg)) Configuration.EnableForDutyPops = cfg;
+        }
         {
             var cfg = Configuration.IgnoreAfkStatus;
             if (ImGui.Checkbox("Ignore AFK status and always notify", ref cfg)) Configuration.IgnoreAfkStatus = cfg;

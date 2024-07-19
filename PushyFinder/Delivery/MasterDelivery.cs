@@ -13,6 +13,7 @@ public static class MasterDelivery
     private static readonly IReadOnlyList<IDelivery> Deliveries =
     [
         new PushoverDelivery(),
+        new NtfyDelivery(),
         new DiscordDelivery()
     ];
 
