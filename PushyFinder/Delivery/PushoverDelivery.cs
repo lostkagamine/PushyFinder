@@ -26,7 +26,8 @@ public class PushoverDelivery : IDelivery
             { "user", Plugin.Configuration.PushoverUserKey },
             { "device", Plugin.Configuration.PushoverDevice },
             { "title", title },
-            { "message", text }
+            { "message", text },
+            { "sound", Plugin.Configuration.PushoverSound }
         };
 
         try
