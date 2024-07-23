@@ -5,6 +5,7 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using PushyFinder.Delivery;
 using PushyFinder.Util;
+using PushyFinder.Retrieve;
 
 namespace PushyFinder.Windows;
 
@@ -38,9 +39,17 @@ public class ConfigWindow : Window, IDisposable
             var cfg = Configuration.PushoverDevice;
             if (ImGui.InputText("Device name", ref cfg, 2048u)) Configuration.PushoverDevice = cfg;
         }
+        if (Configuration.PushoverSoundList.Count > 0)
         {
-            var cfg = Configuration.PushoverSound;
-            if (ImGui.InputText("Sound", ref cfg, 2048u)) Configuration.PushoverSound = cfg;
+            int soundIndex = Configuration.PushoverSoundIndex;
+            if (ImGui.Combo("Sound", ref soundIndex, Configuration.PushoverSoundList.ToArray(), Configuration.PushoverSoundList.Count))
+            {
+                Configuration.PushoverSoundIndex = soundIndex;
+                Configuration.PushoverSound = Configuration.PushoverSoundList[Configuration.PushoverSoundIndex];
+            }
+        }
+        {
+            if (ImGui.Button("Refresh sound list")) PushoverRetrieve.GetSounds();
         }
         {
             var cfg = Configuration.EnableForDutyPops;

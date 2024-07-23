@@ -21,7 +21,8 @@ public class Configuration : IPluginConfiguration
     public bool DiscordUseEmbed { get; set; } = true;
     public uint DiscordEmbedColor { get; set; } = 0x00FF00;
     public int Version { get; set; } = 1;
-
+    public List<string> PushoverSoundList { get; set; } = new List<string>();
+    public int PushoverSoundIndex { get; set; } = 0;
     public void Initialize(IDalamudPluginInterface pluginInterface)
     {
         PluginInterface = pluginInterface;
