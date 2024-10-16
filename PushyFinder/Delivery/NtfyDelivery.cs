@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dalamud.Utility;
@@ -8,7 +9,8 @@ namespace PushyFinder.Delivery;
 public class NtfyDelivery : IDelivery
 {
     public bool IsActive => !Plugin.Configuration.NtfyServer.IsNullOrWhitespace() &&
-                            !Plugin.Configuration.NtfyTopic.IsNullOrWhitespace();
+                            !Plugin.Configuration.NtfyTopic.IsNullOrWhitespace() && 
+                            Uri.IsWellFormedUriString(Plugin.Configuration.NtfyServer, UriKind.Absolute);
 
     public void Deliver(string title, string text)
     {
@@ -17,7 +19,7 @@ public class NtfyDelivery : IDelivery
 
     private static async void DeliverAsync(string title, string text)
     {
-        var args = new Dictionary<string, string>
+            var args = new Dictionary<string, string>
         {
             { "topic", Plugin.Configuration.NtfyTopic },
             { "title", title },
@@ -39,5 +41,10 @@ public class NtfyDelivery : IDelivery
             Service.PluginLog.Error($"Failed to make Ntfy request: '{e.Message}'");
             Service.PluginLog.Error($"{e.StackTrace}");
         }
+        catch (ArgumentException e)
+        {
+            Service.PluginLog.Error($"{e.StackTrace}");
+        }
+
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Dalamud.Utility;
@@ -8,7 +9,8 @@ namespace PushyFinder.Delivery;
 
 internal class DiscordDelivery : IDelivery
 {
-    public bool IsActive => !Plugin.Configuration.DiscordWebhookToken.IsNullOrWhitespace();
+    public bool IsActive => !Plugin.Configuration.DiscordWebhookToken.IsNullOrWhitespace() && 
+                            Uri.IsWellFormedUriString(Plugin.Configuration.DiscordWebhookToken, UriKind.Absolute);
 
     public void Deliver(string title, string text)
     {
@@ -48,6 +50,10 @@ internal class DiscordDelivery : IDelivery
             Service.PluginLog.Error($"Failed to make Discord request: '{e.Message}'");
             Service.PluginLog.Error($"{e.StackTrace}");
             Service.PluginLog.Debug(JsonSerializer.Serialize(webhook.Build()));
+        }
+        catch (ArgumentException e)
+        {
+            Service.PluginLog.Error($"{e.StackTrace}");
         }
     }
 }
