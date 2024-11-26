@@ -19,7 +19,7 @@ public class NtfyDelivery : IDelivery
 
     private static async void DeliverAsync(string title, string text)
     {
-            var args = new Dictionary<string, string>
+        var args = new Dictionary<string, string>
         {
             { "topic", Plugin.Configuration.NtfyTopic },
             { "title", title },
