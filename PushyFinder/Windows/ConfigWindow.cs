@@ -60,7 +60,7 @@ public class ConfigWindow : Window, IDisposable
     {
         {
             var cfg = Configuration.DiscordWebhookToken;
-            if (ImGui.InputText("Webhook token", ref cfg, 2048u)) Configuration.DiscordWebhookToken = cfg;
+            if (ImGui.InputText("Webhook URL", ref cfg, 2048u)) Configuration.DiscordWebhookToken = cfg;
         }
         {
             var cfg = Configuration.DiscordUseEmbed;
