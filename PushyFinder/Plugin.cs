@@ -1,11 +1,7 @@
 using Dalamud.Game.Command;
 using Dalamud.Interface.Windowing;
-using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
-using Flurl.Http;
-using Flurl.Http.Configuration;
-using Newtonsoft.Json;
 using PushyFinder.Impl;
 using PushyFinder.Util;
 using PushyFinder.Windows;
@@ -75,7 +71,7 @@ public sealed class Plugin : IDalamudPlugin
     {
         if (args == "debugOnlineStatus")
         {
-            Service.ChatGui.Print($"OnlineStatus ID = {Service.ClientState.LocalPlayer!.OnlineStatus.Id}");
+            Service.ChatGui.Print($"OnlineStatus ID = {Service.ClientState.LocalPlayer!.OnlineStatus.RowId}");
             return;
         }
 
