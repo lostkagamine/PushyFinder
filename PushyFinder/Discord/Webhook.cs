@@ -6,7 +6,7 @@ namespace PushyFinder.Discord;
 
 internal class Webhook
 {
-    public string Content { get; set; }
+    public string? Content { get; set; }
     public string? Username { get; set; }
     public string? AvatarUrl { get; set; }
     public string? Tts { get; set; }
