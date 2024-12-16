@@ -19,14 +19,10 @@ public class NtfyDelivery : IDelivery
 
     private static async void DeliverAsync(string title, string text)
     {
-        var args = new Dictionary<string, string>
-        {
-            { "topic", Plugin.Configuration.NtfyTopic },
-            { "title", title },
-            { "message", text },
-            { "icon", "https://raw.githubusercontent.com/goatcorp/PluginDistD17/main/stable/PushyFinder/images/icon.png" }
-        };
-
+        // Assuming `title` is used as the main message
+        // Since ntfy doesn't have a separate title field, you can prepend it to the message or just send the message
+        var args = string.IsNullOrEmpty(title) ? text : $"{title}: {text}";
+       
         var request = new FlurlRequest(Plugin.Configuration.NtfyServer);
         if (!Plugin.Configuration.NtfyToken.IsNullOrWhitespace())
             request = request.WithOAuthBearerToken(Plugin.Configuration.NtfyToken);
